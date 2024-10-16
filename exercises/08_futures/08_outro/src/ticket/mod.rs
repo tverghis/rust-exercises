@@ -8,10 +8,16 @@
 //
 // Use Rust's package registry, crates.io, to find the dependencies you need
 // (if any) to build this system.
-mod ticket;
-mod server;
+mod fields;
+pub mod store;
 
-pub use ticket::{store, Ticket};
-pub use server::router::router;
-pub use server::AppState;
+use fields::{TicketDescription, TicketId, TicketStatus, TicketTitle};
+use serde::Serialize;
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct Ticket {
+    id: TicketId,
+    title: TicketTitle,
+    description: TicketDescription,
+    status: TicketStatus,
+}
