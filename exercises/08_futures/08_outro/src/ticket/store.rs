@@ -1,8 +1,8 @@
 use serde::Serialize;
 use thiserror::Error;
 
-use crate::ticket::fields::TicketStatus;
 use crate::server::schema::{NewTicketRequest, PatchTicketRequest};
+use crate::ticket::fields::TicketStatus;
 
 use super::fields::TicketStatusError;
 use super::{
@@ -23,7 +23,7 @@ pub enum CreateTicketError {
     #[error("invalid description")]
     InvalidDescription(#[from] TicketDescriptionError),
     #[error("invalid status: {0}")]
-    InvalidStatus(#[from] TicketStatusError)
+    InvalidStatus(#[from] TicketStatusError),
 }
 
 impl TicketStore {
@@ -37,7 +37,7 @@ impl TicketStore {
     pub fn create(&mut self, new: NewTicketRequest) -> Result<Ticket, CreateTicketError> {
         let id = match self.last_id {
             Some(id) => id.incr(),
-            None => 0.into()
+            None => 0.into(),
         };
 
         let title = new.title.try_into()?;
@@ -48,7 +48,7 @@ impl TicketStore {
             id,
             title,
             description,
-            status
+            status,
         };
 
         self.tickets.push(ticket.clone());
@@ -67,9 +67,13 @@ impl TicketStore {
         self.tickets.get_mut(idx)
     }
 
-    pub fn patch(&mut self, id: TicketId, patch: PatchTicketRequest) -> Result<Option<&Ticket>, CreateTicketError> {
+    pub fn patch(
+        &mut self,
+        id: TicketId,
+        patch: PatchTicketRequest,
+    ) -> Result<Option<&Ticket>, CreateTicketError> {
         let ticket = self.get_mut(id);
-        
+
         match ticket {
             None => Ok(None),
             Some(ticket) => {
@@ -80,7 +84,7 @@ impl TicketStore {
                 if let Some(description) = patch.description {
                     ticket.description = description.try_into()?;
                 }
-                
+
                 if let Some(status) = patch.status {
                     ticket.status = status.try_into()?;
                 }

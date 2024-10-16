@@ -12,6 +12,3 @@ pub struct PatchTicketRequest {
     pub description: Option<String>,
     pub status: Option<String>,
 }
-
-
-

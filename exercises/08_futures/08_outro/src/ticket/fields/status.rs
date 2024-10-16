@@ -16,7 +16,7 @@ impl TryFrom<String> for TicketStatus {
             "todo" => Ok(Self::ToDo),
             "inprogress" => Ok(Self::InProgress),
             "done" => Ok(Self::Done),
-            _ => Err(TicketStatusError::Invalid)
+            _ => Err(TicketStatusError::Invalid),
         }
     }
 }

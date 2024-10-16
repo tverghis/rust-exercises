@@ -8,10 +8,9 @@
 //
 // Use Rust's package registry, crates.io, to find the dependencies you need
 // (if any) to build this system.
-mod ticket;
 mod server;
+mod ticket;
 
-pub use ticket::{store, Ticket};
 pub use server::router::router;
 pub use server::AppState;
-
+pub use ticket::{store, Ticket};

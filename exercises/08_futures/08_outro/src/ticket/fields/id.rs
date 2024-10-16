@@ -15,4 +15,3 @@ impl From<usize> for TicketId {
         Self(value)
     }
 }
-
